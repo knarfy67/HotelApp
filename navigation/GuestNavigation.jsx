@@ -8,6 +8,7 @@ import { OnboardingContext } from "../context/OnboardingContext";
 import OnboardingScreen from "../screens/OnboardingScreen";
 import TabsNavigation from "./TabsNavigation";
 import DetailScreen from "../screens/DetailScreen";
+import LoginScreen from "../screens/LoginScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -41,8 +42,8 @@ export default function GuestNavigation() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="ForgotPassword"
-          component={PlaceholderScreen}
+          name="LoginScreen"
+          component={LoginScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

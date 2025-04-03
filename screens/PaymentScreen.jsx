@@ -102,6 +102,7 @@ export default function PaymentScreen() {
           </View>
         )}
       </View>
+
       <View className="rounded-lg overflow-hidden shadow-lg">
         <MapView
           customMapStyle={darkMode}

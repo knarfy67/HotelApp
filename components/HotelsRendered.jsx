@@ -11,7 +11,6 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 export default function HotelsRendered({ item, index }) {
   const navigation = useNavigation();
   const { favorites, setFavorites } = useContext(OnboardingContext);
-  const [heart, setHeart] = useState(isFavorite);
 
   const isFavorite = favorites.includes(item.id);
 
@@ -44,6 +43,7 @@ export default function HotelsRendered({ item, index }) {
       </TouchableOpacity>
 
       <Animated.Image
+        sharedTransitionTag={`image-${item.id}`}
         className="rounded-lg"
         source={item.image}
         style={{ width: 280, height: 210 }}

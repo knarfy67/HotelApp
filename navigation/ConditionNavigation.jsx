@@ -9,7 +9,7 @@ export default function ConditionNavigation() {
 
   return (
     <>
-      {login ? <AuthNavigation /> : <GuestNavigation />}
+      {login ? <GuestNavigation /> : <GuestNavigation />}
       <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
     </>
   );

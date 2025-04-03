@@ -11,6 +11,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Modal,
 } from "react-native";
 import LottieView from "lottie-react-native";
 import Animated, { FadeInDown, FadeInRight } from "react-native-reanimated";
@@ -19,6 +20,7 @@ import HotelsRendered from "../components/HotelsRendered";
 import HotelsVeticalRendered from "../components/HotelsVeticalRendered";
 import { OnboardingContext } from "../context/OnboardingContext";
 import { LinearGradient } from "expo-linear-gradient";
+import { useNavigation } from "@react-navigation/native";
 
 // icons
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -26,14 +28,24 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Foundation from "@expo/vector-icons/Foundation";
+import Fontisto from "@expo/vector-icons/Fontisto";
 
+// diri kuwaon nag width sa device
 const { width } = Dimensions.get("window");
 
 export default function HomeScreen() {
-  const { colorScheme } = useContext(OnboardingContext);
+  const { colorScheme, loginCheck, showLoginModal, setShowLoginModal } =
+    useContext(OnboardingContext);
+  const navigation = useNavigation();
 
+  //diri mo adto sa pag login kung wala naka login
+  const authNavigate = () => {
+    navigation.navigate("LoginScreen");
+    setShowLoginModal(false);
+  };
   return (
     <View className="flex-1 relative pt-12 dark:bg-slate-800">
+      {/* ang data sa lap loop makita sa data/hotels */}
       <FlatList
         className="mb-20"
         data={hotels}
@@ -196,9 +208,11 @@ export default function HomeScreen() {
                         </Text>
                         <Text className="text-white">for couples!</Text>
                       </View>
-                      <Text className="p-2 bg-white text-center font-bold w-1/2 mt-5 rounded-md">
-                        Book Now!
-                      </Text>
+                      <TouchableOpacity onPress={() => loginCheck(navigation)}>
+                        <Text className="p-2 bg-white text-center font-bold w-1/2 mt-5 rounded-md">
+                          Book Now!
+                        </Text>
+                      </TouchableOpacity>
                     </View>
                     <View className="absolute right-[-95]">
                       <LottieView
@@ -228,6 +242,7 @@ export default function HomeScreen() {
               className="ml-6"
               entering={FadeInDown.delay(900).duration(400)}
             >
+              {/* horizontal hotels */}
               <FlatList
                 data={hotels}
                 keyExtractor={(item) => item.id.toString()}
@@ -241,6 +256,7 @@ export default function HomeScreen() {
             </Animated.View>
 
             {/* Discover Places */}
+            {/* vertical hotels */}
             <Animated.View
               entering={FadeInDown.delay(900).duration(500)}
               className="flex flex-row justify-between items-center mt-6 mx-6 mb-1 "
@@ -257,6 +273,56 @@ export default function HomeScreen() {
         )}
         showsVerticalScrollIndicator={false}
       />
+      <Modal visible={showLoginModal} transparent={true} animationType="slide">
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+          }}
+        >
+          <View className="bg-white absolute dark:bg-slate-900 p-5 rounded-lg w-3/4 ">
+            <TouchableOpacity
+              onPress={() => setShowLoginModal(false)}
+              className="absolute top-2 left-2"
+            >
+              <View>
+                <Ionicons
+                  name="close-sharp"
+                  size={24}
+                  color={colorScheme === "dark" ? "white" : "black"}
+                />
+              </View>
+            </TouchableOpacity>
+            <View style={{ justifyContent: "center", alignItems: "center" }}>
+              <LottieView
+                source={require("../assets/animation/LoginBook.json")}
+                style={{ width: 200, height: 200 }}
+                autoPlay
+                loop={false}
+              />
+            </View>
+            <Text className="text-xl font-bold text-gray-700 dark:text-white">
+              Login Required
+            </Text>
+            <Text className="text-slate-700 dark:text-white mb-2">
+              You must log in to proceed with booking.
+            </Text>
+            <LinearGradient
+              className="mt-2 p-2"
+              style={{ borderRadius: 8 }}
+              colors={["#fadb9d", "#d5b675"]}
+            >
+              <TouchableOpacity onPress={() => authNavigate()}>
+                <Text className="text-center p-2  text-black rounded">
+                  Sign in Account
+                </Text>
+              </TouchableOpacity>
+            </LinearGradient>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }

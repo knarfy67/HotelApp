@@ -16,6 +16,7 @@ import hotels from "../data/hotels";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
+import LottieView from "lottie-react-native";
 
 //icons
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -46,10 +47,7 @@ export default function FavoritesScreen() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         className="mt-4 mb-2"
       >
-        <Animated.View
-          entering={FadeInDown.delay(400).duration(400)}
-          className="flex flex-row items-center justify-between w-full mt-6 gap-2"
-        >
+        <Animated.View className="flex flex-row items-center justify-between w-full mt-6 gap-2">
           <View className="absolute left-3 top-3">
             <FontAwesome
               name="search"
@@ -78,9 +76,22 @@ export default function FavoritesScreen() {
         </Animated.View>
       </KeyboardAvoidingView>
       {favoriteHotels.length === 0 ? (
-        <Text className="text-gray-500 dark:text-gray-300">
-          No favorite hotels yet.
-        </Text>
+        <View className="flex-1 justify-center items-center">
+          <View className="absolute top-[165]">
+            <Text className="text-center text-slate-700 dark:text-white text-xl font-semibold">
+              Your hotel favorites list is empty!
+            </Text>
+            <Text className="text-center text-slate-700 text-sm dark:text-gray-300 mt-1">
+              Explore and look for ideal Hotels
+            </Text>
+          </View>
+          <LottieView
+            source={require("../assets/animation/FindHotel.json")}
+            style={{ width: 250, height: 250 }}
+            autoPlay
+            loop
+          />
+        </View>
       ) : (
         <FlatList
           overScrollMode="never"
@@ -91,7 +102,7 @@ export default function FavoritesScreen() {
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <View className="relative p-2 bg-gray-100 dark:bg-gray-800 rounded-lg mt-2">
-              <View className="flex flex-row gap-2">
+              <View className="flex flex-row gap-3">
                 <Image
                   source={item.image}
                   style={{ height: SCREEN_WIDTH / 3, width: "50%" }}
@@ -101,15 +112,15 @@ export default function FavoritesScreen() {
                   <Text className="text-lg font-semibold text-gray-700 dark:text-white">
                     {item.Header}
                   </Text>
-                  <Text className=" text-gray-700 dark:text-white text-lg font-medium">
+                  <Text className="text-gray-700 dark:text-white text-lg font-medium">
                     {item.price}
                     <Text className="dark:text-gray-400 text-sm font-thin">
+                      {" "}
                       / per night
                     </Text>
                   </Text>
-                  <Text className=" text-gray-700 dark:text-white text-xs font-thin">
-                    <AntDesign name="star" size={10} color="gold" />
-                    {item.rate}
+                  <Text className="text-gray-700 dark:text-white text-xs font-thin">
+                    <AntDesign name="star" size={10} color="gold" /> {item.rate}
                   </Text>
 
                   <TouchableOpacity

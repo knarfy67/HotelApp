@@ -1,19 +1,33 @@
-import { View, Text, Switch } from "react-native";
+import { View, Text, Switch, Modal } from "react-native";
 import React, { createContext, useState } from "react";
 import { useColorScheme } from "nativewind";
 
 export const OnboardingContext = createContext();
 
 const OnboardingContextProvider = ({ children }) => {
+  // diri gikan ang tanan functions sa lain the coponents
+  const [account, setAccount] = useState([]);
   const [login, setLogin] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const { colorScheme, toggleColorScheme } = useColorScheme();
   const [onboarding, setOnboarding] = useState(true);
   const [favorites, setFavorites] = useState([]);
 
+  // kani and pag darkmode
   const handleToggle = () => {
     toggleColorScheme();
   };
 
+  // kani ang login check mo tonga ang modal if wla ka kog in
+  const loginCheck = (navigation) => {
+    if (login) {
+      navigation.navigate("Checkout");
+    } else {
+      setShowLoginModal(true);
+    }
+  };
+
+  // mao ni ang pag darkmode sa mapa
   const mapDark = [
     {
       elementType: "geometry",
@@ -71,6 +85,11 @@ const OnboardingContextProvider = ({ children }) => {
         mapDark,
         setFavorites,
         favorites,
+        loginCheck,
+        showLoginModal,
+        setShowLoginModal,
+        setAccount,
+        account,
       }}
     >
       {children}

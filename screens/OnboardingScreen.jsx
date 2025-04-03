@@ -20,6 +20,8 @@ import { OnboardingContext } from "../context/OnboardingContext";
 import { useNavigation } from "@react-navigation/native";
 import React, { useContext, useState } from "react";
 
+// diri and start sa screen
+
 export default function OnboardingScreen() {
   const flatListRef = useAnimatedRef();
   const x = useSharedValue(0);
@@ -43,6 +45,7 @@ export default function OnboardingScreen() {
     }
   });
 
+  // sa taaas nga skip button
   const skipOnboarding = () => {
     navigation.navigate("NavHome");
     setOnboarding(false);

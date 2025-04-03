@@ -85,6 +85,12 @@ export default function DetailScreen({ route }) {
           )}
         </TouchableOpacity>
       </View>
+      {/* <Animated.Image
+        sharedTransitionTag={`image-${item.id}`}
+        className="rounded-xl"
+        source={item.image}
+        style={{ width: SCREEN_WIDTH, height: SCREEN_WIDTH }}
+      /> */}
       <View className="relative ">
         <Animated.FlatList
           scrollEventThrottle={16}
@@ -127,7 +133,7 @@ export default function DetailScreen({ route }) {
           >
             Pabayo Hace, Cagayan De Oro City
           </Animated.Text>
-          <Animated.View
+          {/* <Animated.View
             entering={FadeIn.delay(600).duration(300)}
             className=" mt-3 rounded-lg overflow-hidden shadow-lg"
           >
@@ -143,7 +149,7 @@ export default function DetailScreen({ route }) {
                 />
               </Marker>
             </MapView>
-          </Animated.View>
+          </Animated.View> */}
 
           <Animated.Text
             entering={FadeInDown.delay(300).duration(400)}
